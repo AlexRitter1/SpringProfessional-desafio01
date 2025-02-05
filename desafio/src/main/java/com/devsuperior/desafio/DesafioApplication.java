@@ -18,51 +18,32 @@ public class DesafioApplication implements CommandLineRunner {
 	@Autowired
 	private OrderService orderService;
 
-	@Autowired
-	private ShippingService shippingService;
-
 	public static void main(String[] args) {
 		SpringApplication.run(DesafioApplication.class, args);
 	}
 
 	@Override
 	public void run(String... args) throws Exception {
-		Scanner scanner = new Scanner(System.in).useLocale(Locale.US);
 
-		Order order = new Order();
+		Order order = new Order(1024, 150.0, 20.0);
+		System.out.println("Código: " + order.getCode());
+		System.out.println("Valor total: " + orderService.total(order));
 
-		System.out.print("\nSet code: ");
-		order.setCode(scanner.nextInt());
-		scanner.nextLine(); // Consome a quebra de linha
+		Order order2 = new Order(2282, 800.0, 10.0);
+		System.out.println("Código: " + order2.getCode());
+		System.out.println("Valor total: " + orderService.total(order2));
 
-		System.out.print("\nSet basic: ");
-		while (true) {
-			try {
-				order.setBasic(scanner.nextDouble());
-				scanner.nextLine(); // Consome a quebra de linha
-				break;
-			} catch (InputMismatchException e) {
-				System.out.print("Valor inválido, tente novamente: ");
-				scanner.nextLine(); // Limpa o buffer
-			}
-		}
+		Order order3 = new Order(1309, 95.90, 0.0);
+		System.out.println("Código: " + order3.getCode());
+		System.out.println("Valor total: " + orderService.total(order3));
 
-		System.out.print("\nSet discount: ");
-		while (true) {
-			try {
-				order.setDiscount(scanner.nextDouble());
-				scanner.nextLine(); // Consome a quebra de linha
-				break;
-			} catch (InputMismatchException e) {
-				System.out.print("Valor inválido, tente novamente: ");
-				scanner.nextLine(); // Limpa o buffer
-			}
-		}
 
-		double total = orderService.total(order) + shippingService.shipment(order);
-		System.out.println("-----------------------");
-		System.out.println("Code: " + order.getCode() + "\nTotal: " + total);
-		System.out.println("-----------------------");
+
+
+
+
+
+
 
 	}
 }
